@@ -15,16 +15,23 @@ class Department {
         console.log(this.employees);
     }
 }
-class ITDepartment extends Department {
-    constructor(id, admins) {
-        super(id, "IT");
-        this.admins = admins;
+class AccountingDepartment extends Department {
+    constructor(id, reports) {
+        super(id, "Accounting");
+        this.reports = reports;
+    }
+    addEmployee(name) {
+        if (name === "Max") {
+            return;
+        }
+        this.employees.push(name);
+    }
+    printReports() {
+        console.log(this.reports);
     }
 }
-const it = new ITDepartment("id1", ["Rose"]);
-it.addEmployees("Rose");
-it.addEmployees("Mikko");
-it.printEmployeeInformation();
-it.describe();
-console.log("it = ", it);
+const accounting = new AccountingDepartment("d22", []);
+accounting.addEmployee("Max");
+accounting.addEmployee("Manu");
+accounting.printEmployeeInformation();
 //# sourceMappingURL=app.js.map
