@@ -4,6 +4,11 @@ class Department {
         this.id = id;
         this.name = name;
         this.employees = [];
+        console.log(Department.fiscalYear);
+    }
+    static createEmployee(name) {
+        console.log("from createEmployee fiscalYear = ", Department.fiscalYear);
+        return { name: name };
     }
     describe() {
         console.log(`Department ${this.id}: ${this.name}`);
@@ -13,6 +18,13 @@ class Department {
     }
     printEmployeeInformation() {
         console.log(this.employees);
+    }
+}
+Department.fiscalYear = 2022;
+class ITDepartment extends Department {
+    constructor(id, admins) {
+        super(id, "IT");
+        this.admins = admins;
     }
 }
 class AccountingDepartment extends Department {
@@ -48,10 +60,14 @@ class AccountingDepartment extends Department {
     }
 }
 const accounting = new AccountingDepartment("d22", []);
-accounting.addReport("Something went wrong....kkk");
+accounting.addReport("Something went wrong....");
 accounting.mostRecentReport = "hwllo rose";
 accounting.printReports();
 console.log(accounting.mostRecentReport);
+const employee1 = Department.createEmployee("Rose Ben");
+console.log("employee1 = ", employee1);
+console.log("fiscalYear = ", Department.fiscalYear);
+const it = new ITDepartment("d1", ["Rose"]);
 accounting.addEmployee("Max");
 accounting.addEmployee("Manu");
 accounting.printEmployeeInformation();
