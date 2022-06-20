@@ -1,40 +1,29 @@
-class Department {
-  static fiscalYear = 2022;
+abstract class Department {
+  static fiscalYear = 2020;
   // private readonly id: string;
-  // name: string;
-  protected employees: string[] = []; //change private to protected
+  // private name: string;
+  protected employees: string[] = [];
 
-  constructor(private readonly id: string, public name: string) {
-    // this.id = id;  // this.name = n;
-
-    //How to access static property 1
-    //here use Department.fiscalYear instead of this.fiscalYear,
-    //because it is a static property, static property and method
-    //is accessed directly on a class(Department here), not on an instance
-    //instantiated with "new" keyoword, therefore, "this" keyword
-    //can not be used for static property and method.
-    console.log(Department.fiscalYear);
+  constructor(protected readonly id: string, public name: string) {
+    // this.id = id;
+    // this.name = n;
+    // console.log(Department.fiscalYear);
   }
 
   static createEmployee(name: string) {
-    //How to access static property 2
-    // static property fiscalYear can be accessed not only in the constructor
-    // by Department.fiscalYear, but also it can be accessed in any function
-    // marked with static as long as the function is inside the class
-    console.log("from createEmployee fiscalYear = ", Department.fiscalYear);
-
     return { name: name };
   }
 
-  describe(this: Department) {
-    console.log(`Department ${this.id}: ${this.name}`);
-  }
+  abstract describe(this: Department): void;
 
-  addEmployees(employee: string) {
+  addEmployee(employee: string) {
+    // validation etc
+    // this.id = 'd2';
     this.employees.push(employee);
   }
 
   printEmployeeInformation() {
+    console.log(this.employees.length);
     console.log(this.employees);
   }
 }
@@ -42,52 +31,51 @@ class Department {
 class ITDepartment extends Department {
   admins: string[];
   constructor(id: string, admins: string[]) {
-    super(id, "IT");
+    super(id, 'IT');
     this.admins = admins;
   }
-}
-class AccountingDepartment extends Department {
-  lastReport: string;
 
-  //create a getter
+  describe() {
+    console.log('IT Department - ID: ' + this.id);
+  }
+}
+
+class AccountingDepartment extends Department {
+  private lastReport: string;
+
   get mostRecentReport() {
     if (this.lastReport) {
       return this.lastReport;
     }
-    throw new Error("Report not found.");
+    throw new Error('No report found.');
   }
 
-  //create a setter
   set mostRecentReport(value: string) {
-    //if value ==='', then !value is true
     if (!value) {
-      throw new Error("Please pass in a valid avlue");
+      throw new Error('Please pass in a valid value!');
     }
     this.addReport(value);
   }
 
-  //shorthand version of initializing
   constructor(id: string, private reports: string[]) {
-    super(id, "Accounting");
-
-    //initialize lastReport otherwise it will show error
-    //it doesn't give the reports[0] to lastReport as its value
-    //therefore, this line of code doesn't conflict
-    //with Line43 (this.lastReport = text;)
-    // so, this line can be "this.lastReport = 'aaa'" for example.
+    super(id, 'Accounting');
     this.lastReport = reports[0];
   }
-  addReport(text: string) {
-    this.reports.push(text); //reports is initialized in Line70
 
-    //this line is the codes which gives lastReport a value, not Line78
-    this.lastReport = text;
+  describe() {
+    console.log('Accounting Department - ID: ' + this.id);
   }
+
   addEmployee(name: string) {
-    if (name === "Max") {
-      return; //not add Max as empolyee
+    if (name === 'Max') {
+      return;
     }
     this.employees.push(name);
+  }
+
+  addReport(text: string) {
+    this.reports.push(text);
+    this.lastReport = text;
   }
 
   printReports() {
@@ -95,28 +83,35 @@ class AccountingDepartment extends Department {
   }
 }
 
-const accounting = new AccountingDepartment("d22", []);
-accounting.addReport("Something went wrong....");
+const employee1 = Department.createEmployee('Max');
+console.log(employee1, Department.fiscalYear);
 
-//How to use a setter
-accounting.mostRecentReport = "hwllo rose";
-accounting.printReports();
+const it = new ITDepartment('d1', ['Max']);
 
-//How to use a getter
-//note: here not adding '()', but only "accounting.mostRecentReport"
+it.addEmployee('Max');
+it.addEmployee('Manu');
+
+// it.employees[2] = 'Anna';
+
+it.describe();
+it.name = 'NEW NAME';
+it.printEmployeeInformation();
+
+console.log(it);
+
+const accounting = new AccountingDepartment('d2', []);
+
+accounting.mostRecentReport = 'Year End Report';
+accounting.addReport('Something went wrong...');
 console.log(accounting.mostRecentReport);
 
-//create employee using static methods
-const employee1 = Department.createEmployee("Rose Ben");
-console.log("employee1 = ", employee1);
+accounting.addEmployee('Max');
+accounting.addEmployee('Manu');
 
-//How to access static property 3
-console.log("fiscalYear = ", Department.fiscalYear);
+// accounting.printReports();
+// accounting.printEmployeeInformation();
+accounting.describe();
 
-const it = new ITDepartment("d1", ["Rose"]);
+// const accountingCopy = { name: 'DUMMY', describe: accounting.describe };
 
-accounting.addEmployee("Max"); //Max will not be added into employees array
-
-accounting.addEmployee("Manu"); //Menu will be added into employees array
-
-accounting.printEmployeeInformation();
+// accountingCopy.describe();
