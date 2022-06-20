@@ -17,10 +17,13 @@ class Department {
   }
 }
 class AccountingDepartment extends Department {
+  //shorthand version of initializing
   constructor(id: string, private reports: string[]) {
     super(id, "Accounting");
   }
-
+  addReport(text: string) {
+    this.reports.push(text); //reports is initialized in Line21
+  }
   addEmployee(name: string) {
     if (name === "Max") {
       return; //not add Max as empolyee
@@ -36,4 +39,7 @@ class AccountingDepartment extends Department {
 const accounting = new AccountingDepartment("d22", []);
 accounting.addEmployee("Max"); //Max will not be added into employees array
 accounting.addEmployee("Manu"); //Menu will be added into employees array
+accounting.addReport("Something went wrong...");
+
 accounting.printEmployeeInformation();
+accounting.printReports();

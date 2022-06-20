@@ -20,6 +20,9 @@ class AccountingDepartment extends Department {
         super(id, "Accounting");
         this.reports = reports;
     }
+    addReport(text) {
+        this.reports.push(text);
+    }
     addEmployee(name) {
         if (name === "Max") {
             return;
@@ -33,5 +36,7 @@ class AccountingDepartment extends Department {
 const accounting = new AccountingDepartment("d22", []);
 accounting.addEmployee("Max");
 accounting.addEmployee("Manu");
+accounting.addReport("Something went wrong...");
 accounting.printEmployeeInformation();
+accounting.printReports();
 //# sourceMappingURL=app.js.map
