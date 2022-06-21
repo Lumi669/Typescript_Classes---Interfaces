@@ -1,10 +1,16 @@
-interface Greetable {
+interface Named {
   readonly name: string;
+}
 
+interface Greetable extends Named {
   greet(phrase: string): void;
 }
 
 class Person implements Greetable {
+  //If comment out Line12, it shows error, Line9 error is:
+  //"Class 'Person' incorrectly implements interface 'Greetable'.
+  //Property 'name' is missing in type 'Person' but
+  //required in type 'Greetable'.ts(2420)""
   name: string;
   age = 30;
 
@@ -23,8 +29,8 @@ class Person implements Greetable {
 let user1: Greetable;
 
 user1 = new Person("Rose", 20);
-user1.greet("Hello, I am your friend");
+user1.greet("Hello, ");
 
 //shows error too for type Cannot assign to 'name' because
 //it is a read-only property.ts(2540)
-user1.name = "Hello";
+//user1.name = "Hello";

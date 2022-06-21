@@ -12,5 +12,5 @@ var Person = (function () {
 }());
 var user1;
 user1 = new Person("Rose", 20);
-user1.greet("Hello, I am your friend");
+user1.greet("Hello, ");
 //# sourceMappingURL=app.js.map
