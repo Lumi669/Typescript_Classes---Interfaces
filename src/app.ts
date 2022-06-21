@@ -1,8 +1,8 @@
-type Greetable = {
+interface Greetable {
   readonly name: string;
 
   greet(phrase: string): void;
-};
+}
 
 class Person implements Greetable {
   name: string;
