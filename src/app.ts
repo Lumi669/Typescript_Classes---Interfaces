@@ -1,8 +1,8 @@
-interface Greetable {
-  name: string;
+type Greetable = {
+  readonly name: string;
 
   greet(phrase: string): void;
-}
+};
 
 class Person implements Greetable {
   name: string;
@@ -24,3 +24,7 @@ let user1: Greetable;
 
 user1 = new Person("Rose", 20);
 user1.greet("Hello, I am your friend");
+
+//shows error too for type Cannot assign to 'name' because
+//it is a read-only property.ts(2540)
+user1.name = "Hello";
