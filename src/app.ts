@@ -46,6 +46,7 @@ class ITDepartment extends Department {
 
 class AccountingDepartment extends Department {
   private lastReport: string;
+  private static instance: AccountingDepartment;
 
   get mostRecentReport() {
     if (this.lastReport) {
@@ -61,9 +62,19 @@ class AccountingDepartment extends Department {
     this.addReport(value);
   }
 
-  constructor(id: string, private reports: string[]) {
+  private constructor(id: string, private reports: string[]) {
     super(id, "Accounting");
     this.lastReport = reports[0];
+  }
+
+  //add a static method, ensure that there will be and only one
+  //instance of AccountingDepartment
+  static getInstance() {
+    if (this.instance) {
+      return this.instance;
+    }
+    this.instance = new AccountingDepartment("id", []);
+    return this.instance;
   }
 
   //overriding describe function of parent class
@@ -105,10 +116,11 @@ it.printEmployeeInformation();
 
 console.log(it);
 
-const accounting = new AccountingDepartment("d2", []);
+//const accounting = new AccountingDepartment("d2", []);
+const accounting = AccountingDepartment.getInstance();
 
 accounting.mostRecentReport = "Year End Report";
-accounting.addReport("Something went wrong...");
+accounting.addReport("Something went wrong...hello");
 console.log(accounting.mostRecentReport);
 
 accounting.addEmployee("Max");
