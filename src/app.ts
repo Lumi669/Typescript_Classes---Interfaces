@@ -10,12 +10,18 @@ interface AddFn {
 let add: AddFn;
 
 //assign the new function
-add = (n1: string, n2: number) => {
+add = (n1: number, n2: number) => {
   return n1 + n2;
 };
 
 interface Named {
-  readonly name: string;
+  //after changing name in class Person to optional property
+  //here in interface, the name property should also set
+  //to optional, otherwise show error
+  readonly name?: string;
+
+  //set outputName as optional property
+  outputName?: string;
 }
 
 interface Greetable extends Named {
@@ -23,16 +29,26 @@ interface Greetable extends Named {
 }
 
 class Person implements Greetable {
-  name: string;
+  name?: string;
   age = 30;
 
-  constructor(n: string, a: number) {
-    this.name = n;
+  constructor(a: number, n?: string) {
+    //after changing name as an optional property
+    if (n) {
+      this.name = n;
+    }
+
+    //before changing name as an optional property
+    // this.name = n;
     this.age = a;
   }
 
   greet(phrase: string) {
-    console.log(`${phrase} ${this.name}, I am ${this.age} years old.`);
+    if (this.name) {
+      console.log(`${phrase} ${this.name}, I am ${this.age} years old.`);
+    } else {
+      console.log(`${phrase} I am ${this.age} years old.`);
+    }
   }
 }
 
@@ -40,7 +56,7 @@ class Person implements Greetable {
 //let user1: Person;
 let user1: Greetable;
 
-user1 = new Person("Rose", 20);
+user1 = new Person(40);
 user1.greet("Hello, ");
 
 //shows error too for type Cannot assign to 'name' because
