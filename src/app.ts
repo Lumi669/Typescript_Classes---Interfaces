@@ -1,3 +1,19 @@
+//define a type of functiton
+//type AddFn = (a: number, b: number) => number;
+
+//define/create a type of function with interface
+interface AddFn {
+  (a: number, b: number): number;
+}
+
+//create a new function which is of type AddFn
+let add: AddFn;
+
+//assign the new function
+add = (n1: string, n2: number) => {
+  return n1 + n2;
+};
+
 interface Named {
   readonly name: string;
 }
@@ -7,10 +23,6 @@ interface Greetable extends Named {
 }
 
 class Person implements Greetable {
-  //If comment out Line12, it shows error, Line9 error is:
-  //"Class 'Person' incorrectly implements interface 'Greetable'.
-  //Property 'name' is missing in type 'Person' but
-  //required in type 'Greetable'.ts(2420)""
   name: string;
   age = 30;
 
